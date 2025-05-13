@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart'; // Tambahkan impor ini
 import 'screens/login_screen.dart';
 import 'screens/dashboard_screen.dart';
-import 'screens/siswa_list_screen.dart';
+// import 'screens/siswa_list_screen.dart';
 import 'screens/siswa_detail_screen.dart';
 import 'screens/payment_screen.dart';
 import 'services/auth_service.dart';
+import 'screens/tagihan_screen.dart';
+
 
 void main() async {
   // Pastikan inisialisasi locale dilakukan sebelum runApp
@@ -25,12 +27,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'School Payment App',
         theme: ThemeData(primarySwatch: Colors.blue),
+        debugShowCheckedModeBanner: false, // Tambahkan ini
         initialRoute: '/login',
         routes: {
           '/login': (context) => LoginScreen(),
           '/dashboard': (context) => DashboardScreen(),
-          '/siswa_list': (context) => SiswaListScreen(),
+          // '/siswa_list': (context) => SiswaListScreen(),
           '/payment': (context) => PaymentScreen(),
+          '/tagihan': (context) => TagihanScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == '/siswa_detail') {

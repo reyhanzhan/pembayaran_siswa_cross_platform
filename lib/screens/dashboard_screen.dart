@@ -10,9 +10,13 @@ class DashboardScreen extends StatelessWidget {
       future: authService.getPeran(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
-        final peran = snapshot.data!;
+
+        final peran = snapshot.data!; // Definisikan peran di sini
+
         return Scaffold(
           appBar: AppBar(
             title: Text('Dashboard'),
@@ -32,11 +36,19 @@ class DashboardScreen extends StatelessWidget {
               children: [
                 Text('Selamat datang, $peran!', style: TextStyle(fontSize: 20)),
                 SizedBox(height: 20),
+                // Tombol "Catat Pembayaran" untuk petugas
                 if (peran == 'petugas_koperasi' || peran == 'petugas_bendahara')
                   ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/payment'),
                     child: Text('Catat Pembayaran'),
                   ),
+                // Tombol "Kelola Tagihan" untuk petugas
+                if (peran == 'petugas_koperasi' || peran == 'petugas_bendahara')
+                  ElevatedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/tagihan'),
+                    child: Text('Kelola Tagihan'),
+                  ),
+                // Tombol "Lihat Daftar Siswa" untuk semua peran
                 ElevatedButton(
                   onPressed: () => Navigator.pushNamed(context, '/siswa_list'),
                   child: Text('Lihat Daftar Siswa'),

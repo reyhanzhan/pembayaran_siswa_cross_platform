@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/siswa.dart';
-import '../models/transaksi.dart'; // Tambahkan impor ini
+import '../models/transaksi.dart';
 import '../services/api_service.dart';
 
 class SiswaDetailScreen extends StatefulWidget {
@@ -26,7 +26,14 @@ class _SiswaDetailScreenState extends State<SiswaDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Detail Siswa')),
+      appBar: AppBar(
+        title: Text(
+          'Detail Siswa',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: Colors.teal,
+        elevation: 0,
+      ),
       body: FutureBuilder<Siswa>(
         future: siswaDetail,
         builder: (context, snapshot) {
@@ -44,11 +51,17 @@ class _SiswaDetailScreenState extends State<SiswaDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Nama: ${siswa.user.name}', style: TextStyle(fontSize: 18)),
+                Text(
+                  'Nama: ${siswa.user.name}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 Text('Email: ${siswa.user.email}'),
                 Text('Total Tagihan: Rp ${siswa.totalTagihan.toStringAsFixed(0)}'),
                 SizedBox(height: 20),
-                Text('Riwayat Pembayaran', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(
+                  'Riwayat Pembayaran',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 Expanded(
                   child: siswa.transaksi.isEmpty
                       ? Center(child: Text('Belum ada pembayaran'))
@@ -56,14 +69,23 @@ class _SiswaDetailScreenState extends State<SiswaDetailScreen> {
                           itemCount: siswa.transaksi.length,
                           itemBuilder: (context, index) {
                             final transaksi = siswa.transaksi[index];
-                            final dateTime = DateTime.parse(transaksi.tanggalBayar);
+                            final dateTime = transaksi.tanggalBayar.toLocal(); // Langsung gunakan DateTime
                             final formattedDate = DateFormat('dd MMMM yyyy, HH:mm').format(dateTime);
                             final day = DateFormat('EEEE', 'id_ID').format(dateTime);
                             return Card(
                               margin: EdgeInsets.symmetric(vertical: 8.0),
+                              elevation: 3,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               child: ListTile(
-                                title: Text('Rp ${transaksi.jumlah.toStringAsFixed(0)}'),
-                                subtitle: Text('$formattedDate\nHari: $day\nStatus: ${transaksi.status}'),
+                                title: Text(
+                                  'Rp ${transaksi.jumlah.toStringAsFixed(0)}',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(
+                                  '$formattedDate\nHari: $day\nPetugas: ${transaksi.petugas.name}\nStatus: ${transaksi.status}',
+                                ),
                               ),
                             );
                           },
